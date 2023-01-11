@@ -92,6 +92,29 @@ class AddPlaceActivity : AppCompatActivity(),View.OnClickListener {
                 pictureDialog.show()
             }
 
+            R.id.btn_save->{
+                /*when{
+                    binding?.etTitle?.text.isNullOrEmpty()->{
+                        Toast.makeText(this, "Please enter title", Toast.LENGTH_SHORT).show()
+
+                    }
+                    binding?.etDescription?.text.isNullOrEmpty()->{
+                        Toast.makeText(this, "Please enter description", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    binding?.etLocation?.text.isNullOrEmpty()->{
+                        Toast.makeText(this, "Please select location", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    selectedSaveImgToInternalStorage == null->{
+                        Toast.makeText(this, "Please add image", Toast.LENGTH_SHORT).show()
+                    }
+                    else->{
+
+                    }
+                }*/
+            }
+
         }
 
     }
