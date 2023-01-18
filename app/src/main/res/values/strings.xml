@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">GatherPlacesApp</string>
 
-    <string name="google_maps_api_key"></string>
+    <string name="google_maps_api_key">AIzaSyCRQZafFQ0BckQSGQLCUdDjLASmXOi1rCE</string>
 
     <string name="edit_text_hint_title">Title</string>
     <string name="edit_text_hint_description">Description</string>
@@ -15,5 +15,6 @@
 
     <string name="btn_text_view_on_map">VIEW ON MAP</string>
     <string name="add_place_select_current_location_text">SELECT CURRENT LOCATION</string>
+
 
 </resources>

@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import rachman.forniandi.gatherplacesapp.models.DataPlaceModel
 
-/*
 class DatabaseHandler (context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION){
 
@@ -132,4 +131,4 @@ class DatabaseHandler (context: Context) :
 
 
 
-}*/
+}

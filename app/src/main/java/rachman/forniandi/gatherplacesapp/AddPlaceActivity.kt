@@ -23,6 +23,8 @@ import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import rachman.forniandi.gatherplacesapp.databinding.ActivityAddPlaceBinding
+import rachman.forniandi.gatherplacesapp.dbHandler.DatabaseHandler
+import rachman.forniandi.gatherplacesapp.models.DataPlaceModel
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -37,8 +39,11 @@ class AddPlaceActivity : AppCompatActivity(),View.OnClickListener {
     private var binding: ActivityAddPlaceBinding?= null
     private var calendar = Calendar.getInstance()
     private lateinit var dateSetListener:DatePickerDialog.OnDateSetListener
-
+    private var mHappyPlaceDetails:DataPlaceModel? = null
     private var selectedSaveImgToInternalStorage:Uri? = null
+
+    private var mLatitude: Double = 0.0
+    private var mLongitude: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,7 +98,7 @@ class AddPlaceActivity : AppCompatActivity(),View.OnClickListener {
             }
 
             R.id.btn_save->{
-                /*when{
+                when{
                     binding?.etTitle?.text.isNullOrEmpty()->{
                         Toast.makeText(this, "Please enter title", Toast.LENGTH_SHORT).show()
 
@@ -110,9 +115,34 @@ class AddPlaceActivity : AppCompatActivity(),View.OnClickListener {
                         Toast.makeText(this, "Please add image", Toast.LENGTH_SHORT).show()
                     }
                     else->{
+                        val gatherPlaceModel = DataPlaceModel(
+                            0,
+                            binding?.etTitle?.text.toString(),
+                            selectedSaveImgToInternalStorage.toString(),
+                            binding?.etDescription?.text.toString(),
+                            binding?.etDate?.text.toString(),
+                            binding?.etLocation?.text.toString(),
+                            mLatitude,
+                            mLongitude
+                        )
 
+                        val dbHandler = DatabaseHandler(this)
+                        if (mHappyPlaceDetails == null){
+                            val addDataPlace = dbHandler.addDataPlaces(gatherPlaceModel)
+
+                            if (addDataPlace > 0){
+                                setResult(Activity.RESULT_OK)
+                                finish()
+                            }
+                        }else{
+                            val updateDataPlace = dbHandler.updateDataPlacesList(gatherPlaceModel)
+                            if (updateDataPlace > 0){
+                                setResult(Activity.RESULT_OK)
+                                finish()
+                            }
+                        }
                     }
-                }*/
+                }
             }
 
         }

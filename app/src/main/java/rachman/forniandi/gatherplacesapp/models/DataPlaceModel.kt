@@ -1,5 +1,7 @@
 package rachman.forniandi.gatherplacesapp.models
 
+import java.io.Serializable
+
 data class DataPlaceModel(
     val id:Int,
     val title:String,
@@ -9,4 +11,4 @@ data class DataPlaceModel(
     val location:String,
     val latitude:Double,
     val longitude:Double
-)
+): Serializable
