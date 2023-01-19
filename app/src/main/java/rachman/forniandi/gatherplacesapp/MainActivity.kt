@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import pl.kitek.rvswipetodelete.SwipeToEditCallback
@@ -21,12 +22,22 @@ class MainActivity : AppCompatActivity() {
 
         binding?.fbAddPlaces?.setOnClickListener {
             val intent = Intent(this@MainActivity,AddPlaceActivity::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, ADD_PLACE_ACTIVITY_REQUEST_CODE)
         }
 
         getDataPlacesListFromDbLocal()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == ADD_PLACE_ACTIVITY_REQUEST_CODE){
+            if (resultCode == Activity.RESULT_OK){
+                getDataPlacesListFromDbLocal()
+            }else{
+                Log.e("Activity", "Cancelled or Back Pressed")
+            }
+        }
+    }
     private fun getDataPlacesListFromDbLocal(){
         val dbHandler = DatabaseHandler(this)
         val getDataPlaceList :ArrayList<DataPlaceModel> = dbHandler.getDataPlacesList()
@@ -59,7 +70,6 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra(EXTRA_PLACE_DETAILS,model)
                 startActivity(intent)
             }
-
         })
 
         /*val editSwipeHandler = object : SwipeToEditCallback(this) {
@@ -75,6 +85,8 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+
 
 
     companion object{
