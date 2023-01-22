@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.database.DatabaseErrorHandler
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import rachman.forniandi.gatherplacesapp.AddPlaceActivity
 import rachman.forniandi.gatherplacesapp.MainActivity
 import rachman.forniandi.gatherplacesapp.databinding.ItemPlaceBinding
+import rachman.forniandi.gatherplacesapp.dbHandler.DatabaseHandler
 import rachman.forniandi.gatherplacesapp.models.DataPlaceModel
 
 class GatherPlaceAdapter(private val context: Context,
@@ -62,6 +64,16 @@ class GatherPlaceAdapter(private val context: Context,
         activity.startActivityForResult(intent,requestCode)
 
         notifyItemChanged(position)
+    }
+
+    fun removeItemAt(position: Int){
+        val dbHandler = DatabaseHandler(context)
+        var isDeleted = dbHandler.deleteDataPlacesList(listPlace[position])
+
+        if (isDeleted > 0){
+            listPlace.removeAt(position)
+            notifyItemRemoved(position)
+        }
     }
 
 

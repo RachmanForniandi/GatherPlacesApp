@@ -60,6 +60,8 @@ class AddPlaceActivity : AppCompatActivity(),View.OnClickListener {
             onBackPressed()
         }
 
+
+
         dateSetListener = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
             calendar.set(Calendar.YEAR,year)
             calendar.set(Calendar.MONTH,month)
@@ -127,7 +129,7 @@ class AddPlaceActivity : AppCompatActivity(),View.OnClickListener {
                             .show()
                     }
                     selectedSaveImgToInternalStorage == null->{
-                        Toast.makeText(this, "Please add image", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Please select an image", Toast.LENGTH_SHORT).show()
                     }
                     else->{
                         val gatherPlaceModel = DataPlaceModel(

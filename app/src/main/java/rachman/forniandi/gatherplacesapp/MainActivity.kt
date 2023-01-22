@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.happyplaces.utils.SwipeToDeleteCallback
 import pl.kitek.rvswipetodelete.SwipeToEditCallback
 import rachman.forniandi.gatherplacesapp.adapters.GatherPlaceAdapter
 import rachman.forniandi.gatherplacesapp.databinding.ActivityMainBinding
@@ -86,6 +87,18 @@ class MainActivity : AppCompatActivity() {
         }
         val editItemTouchHelper = ItemTouchHelper(editSwipeHandler)
         editItemTouchHelper.attachToRecyclerView(binding?.listItemPlaces)
+
+
+        val deleteSwipeHandler = object : SwipeToDeleteCallback(this) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val adapter = binding?.listItemPlaces?.adapter as GatherPlaceAdapter
+                adapter.removeItemAt(viewHolder.adapterPosition)
+
+                getDataPlacesListFromDbLocal()
+            }
+        }
+        val deleteItemTouchHelper = ItemTouchHelper(deleteSwipeHandler)
+        deleteItemTouchHelper.attachToRecyclerView(binding?.listItemPlaces)
 
 
     }
