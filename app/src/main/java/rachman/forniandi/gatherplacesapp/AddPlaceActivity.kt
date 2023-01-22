@@ -8,6 +8,7 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,11 @@ import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.res.TypedArrayUtils.getString
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -60,7 +66,12 @@ class AddPlaceActivity : AppCompatActivity(),View.OnClickListener {
             onBackPressed()
         }
 
-
+        if (!Places.isInitialized()){
+            Places.initialize(
+                this@AddPlaceActivity,
+                resources.getString(R.string.google_maps_api_key)
+            )
+        }
 
         dateSetListener = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
             calendar.set(Calendar.YEAR,year)
@@ -87,6 +98,8 @@ class AddPlaceActivity : AppCompatActivity(),View.OnClickListener {
 
         binding?.etDate?.setOnClickListener(this)
         binding?.txtAddImg?.setOnClickListener(this)
+        binding?.btnSave?.setOnClickListener(this)
+        binding?.etLocation?.setOnClickListener(this)
 
     }
 
@@ -162,6 +175,21 @@ class AddPlaceActivity : AppCompatActivity(),View.OnClickListener {
                 }
             }
 
+            R.id.et_location ->{
+                try {
+                    val fields = listOf(Place.Field.ID,
+                    Place.Field.NAME,
+                    Place.Field.LAT_LNG,
+                        Place.Field.ADDRESS)
+
+                    val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN,fields)
+                        .build(this@AddPlaceActivity)
+                    startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE)
+                }catch(e:java.lang.Exception){
+                    e.printStackTrace()
+                }
+            }
+
         }
 
     }
@@ -199,6 +227,11 @@ class AddPlaceActivity : AppCompatActivity(),View.OnClickListener {
                 Log.e("saved img_2: ", "Path :: $selectedSaveImgToInternalStorage")
                 binding?.imgPlace?.setImageBitmap(thumbnailImg)
 
+            }else if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE){
+                val place:Place = Autocomplete.getPlaceFromIntent(data!!)
+                binding?.etLocation?.setText(place.address)
+                mLatitude = place.latLng!!.latitude
+                mLongitude = place.latLng!!.longitude
             }
         }
     }
