@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import pl.kitek.rvswipetodelete.SwipeToEditCallback
 import rachman.forniandi.gatherplacesapp.adapters.GatherPlaceAdapter
@@ -72,7 +73,8 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        /*val editSwipeHandler = object : SwipeToEditCallback(this) {
+        //utk swipe edit item data
+        val editSwipeHandler = object : SwipeToEditCallback(this) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val adapter = binding?.listItemPlaces?.adapter as GatherPlaceAdapter
                 adapter.notifyEditItem(
@@ -81,7 +83,9 @@ class MainActivity : AppCompatActivity() {
                     ADD_PLACE_ACTIVITY_REQUEST_CODE
                 )
             }
-        }*/
+        }
+        val editItemTouchHelper = ItemTouchHelper(editSwipeHandler)
+        editItemTouchHelper.attachToRecyclerView(binding?.listItemPlaces)
 
 
     }

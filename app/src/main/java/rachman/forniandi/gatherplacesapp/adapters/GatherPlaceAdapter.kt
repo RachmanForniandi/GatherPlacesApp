@@ -38,7 +38,7 @@ class GatherPlaceAdapter(private val context: Context,
         holder.itemView.setOnClickListener {
 
             if (onClickListener != null) {
-                onClickListener!!.onClick(position, model)
+                onClickListener?.onClick(position, model)
             }
         }
 
@@ -63,4 +63,6 @@ class GatherPlaceAdapter(private val context: Context,
 
         notifyItemChanged(position)
     }
+
+
 }

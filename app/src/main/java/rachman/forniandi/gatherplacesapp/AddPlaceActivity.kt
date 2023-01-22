@@ -39,7 +39,7 @@ class AddPlaceActivity : AppCompatActivity(),View.OnClickListener {
     private var binding: ActivityAddPlaceBinding?= null
     private var calendar = Calendar.getInstance()
     private lateinit var dateSetListener:DatePickerDialog.OnDateSetListener
-    private var mHappyPlaceDetails:DataPlaceModel? = null
+    private var mDataPlaceModels:DataPlaceModel? = null
     private var selectedSaveImgToInternalStorage:Uri? = null
 
     private var mLatitude: Double = 0.0
@@ -68,6 +68,21 @@ class AddPlaceActivity : AppCompatActivity(),View.OnClickListener {
         }
 
         updateDateInView()
+
+        if (mDataPlaceModels != null){
+            binding?.etTitle?.setText(mDataPlaceModels?.title)
+            binding?.etDescription?.setText(mDataPlaceModels?.description)
+            binding?.etDate?.setText(mDataPlaceModels?.date)
+            binding?.etLocation?.setText(mDataPlaceModels?.location)
+            mLatitude = mDataPlaceModels!!.latitude
+            mLongitude = mDataPlaceModels!!.longitude
+
+            selectedSaveImgToInternalStorage = Uri.parse(mDataPlaceModels?.image)
+            binding?.imgPlace?.setImageURI(selectedSaveImgToInternalStorage)
+
+            binding?.btnSave?.text = "UPDATE"
+        }
+
         binding?.etDate?.setOnClickListener(this)
         binding?.txtAddImg?.setOnClickListener(this)
 
@@ -127,7 +142,7 @@ class AddPlaceActivity : AppCompatActivity(),View.OnClickListener {
                         )
 
                         val dbHandler = DatabaseHandler(this)
-                        if (mHappyPlaceDetails == null){
+                        if (mDataPlaceModels == null){
                             val addDataPlace = dbHandler.addDataPlaces(gatherPlaceModel)
 
                             if (addDataPlace > 0){
