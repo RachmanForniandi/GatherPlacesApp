@@ -1,5 +1,6 @@
 package rachman.forniandi.gatherplacesapp
 
+import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -31,6 +32,14 @@ class DetailPlaceActivity : AppCompatActivity() {
             }
 
             binding?.imgPlace?.setImageURI(Uri.parse(placeModel.image))
+            binding?.txtDescription?.text = placeModel.description
+            binding?.txtLocation?.text = placeModel.location
+
+            binding?.btnViewMap?.setOnClickListener {
+                val intentMap = Intent(this,MapActivity::class.java)
+                intentMap.putExtra(MainActivity.EXTRA_PLACE_DETAILS,placeModel)
+                startActivity(intentMap)
+            }
         }
     }
 }
